@@ -2,29 +2,10 @@
 <html>
 
 <head>
-
 <meta charset="UTF-8">
-
 <title>Dashboard Financiero</title>
 
-<style>
-
-body{
-font-family:Arial;
-background:#f5f6fa;
-text-align:center;
-}
-
-.card{
-background:white;
-padding:20px;
-margin:20px auto;
-width:300px;
-border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
-}
-
-</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
 
@@ -32,29 +13,50 @@ box-shadow:0 0 10px rgba(0,0,0,0.1);
 
 <h1>Dashboard Financiero</h1>
 
-<div class="card">
+<canvas id="grafica" width="600" height="300"></canvas>
 
-<h3>Ingreso esperado</h3>
+<script>
 
-<p>$141,000</p>
+fetch('pagos.csv')
+.then(response => response.text())
+.then(data => {
 
-</div>
+const rows = data.split('\n').slice(1);
 
-<div class="card">
+let meses = {};
+rows.forEach(row => {
 
-<h3>Ingreso Enero 2026</h3>
+let cols = row.split(',');
 
-<p>$202,051</p>
+let mes = cols[0];
+let abono = parseFloat(cols[8]);
 
-</div>
+if(!meses[mes]) meses[mes]=0;
 
-<div class="card">
+meses[mes]+=abono;
 
-<h3>Unidades detectadas</h3>
+});
 
-<p>358</p>
+const labels = Object.keys(meses);
+const valores = Object.values(meses);
 
-</div>
+new Chart(document.getElementById("grafica"),{
+
+type:'bar',
+
+data:{
+labels:labels,
+datasets:[{
+label:'Ingresos por mes',
+data:valores
+}]
+}
+
+});
+
+});
+
+</script>
 
 </body>
 </html>
