@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Mapa Arboledas de la Luz</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<style>
+
+#map{
+height:90vh;
+}
+
+body{
+font-family:Arial;
+text-align:center;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>Mapa del Fraccionamiento</h2>
+
+<div id="map"></div>
+
+<script>
+
+var map = L.map('map').setView([21.1526,-101.7119],17);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+maxZoom:19
+}).addTo(map);
+
+var casas = [
+
+["ANGELES 103A",21.1527,-101.7118,"green"],
+["PATRIARCAS 205",21.1528,-101.7120,"red"],
+["MARTIRES 117",21.1525,-101.7117,"orange"]
+
+];
+
+casas.forEach(function(casa){
+
+L.circleMarker([casa[1],casa[2]],{
+color:casa[3],
+radius:8
+}).addTo(map)
+
+.bindPopup(casa[0]);
+
+});
+
+</script>
+
+</body>
+</html
